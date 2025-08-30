@@ -1,0 +1,15 @@
+{
+  "name": "chatbot-server",
+  "version": "1.0.0",
+  "description": "Backend server for the modern chatbot application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+  },
+  "keywords": ["express", "ai", "chatbot", "api", "huggingface", "llama"],
+  "author": "Ahmed Babay",
+  "license": "MIT"
+}
