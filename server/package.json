@@ -1,15 +1,20 @@
 {
   "name": "chatbot-server",
-  "version": "1.0.0",
-  "description": "Backend server for the modern chatbot application",
+  "version": "1.0.0", 
+  "description": "Backend server for the chatbot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
   },
-  "keywords": ["express", "ai", "chatbot", "api", "huggingface", "llama"],
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
   "author": "Ahmed Babay",
   "license": "MIT"
 }
