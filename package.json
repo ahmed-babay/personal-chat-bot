@@ -1,0 +1,15 @@
+{
+  "name": "modern-chatbot",
+  "version": "1.0.0",
+  "description": "A modern AI chatbot with ChatGPT-like UI built with React, TypeScript, and Node.js",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["chatbot", "ai", "react", "typescript", "nodejs", "express"],
+  "author": "Ahmed Babay",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
