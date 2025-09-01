@@ -42,7 +42,7 @@ A modern, open-source AI chatbot built with React, TypeScript, Node.js, and powe
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/ahmed-babay/chat-bot.git
 cd modern-chatbot
 ```
 
@@ -122,17 +122,6 @@ npm run build        # Build for production
 npm run preview      # Preview production build
 npm run lint         # Run ESLint
 ```
-
-## 🤖 Available AI Models
-
-The application comes with several pre-configured open-source models:
-
-| Model | Description | Token Required | Best For |
-|-------|-------------|----------------|----------|
-| **DialoGPT Medium** | Microsoft's conversational AI | ❌ | General chat, casual conversation |
-| **GPT-2** | OpenAI's classic model | ❌ | Text generation, creative writing |
-| **GPT-Neo 125M** | EleutherAI's open model | ❌ | Lightweight tasks, learning |
-| **Llama 2 7B Chat** | Meta's advanced model | ✅ | High-quality responses, complex tasks |
 
 ## 🔌 API Endpoints
 
@@ -245,10 +234,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - **Hugging Face** for providing access to open-source AI models
-- **Meta** for releasing Llama 2 as open source
-- **Microsoft** for DialoGPT
-- **EleutherAI** for GPT-Neo
-- **OpenAI** for GPT-2 (open source version)
 
 ## 🆘 Troubleshooting
 
