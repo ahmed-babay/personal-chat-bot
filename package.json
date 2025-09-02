@@ -4,6 +4,12 @@
   "description": "A modern AI chatbot with ChatGPT-like UI built with React, TypeScript, and Node.js",
   "main": "server/index.js",
   "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["chatbot", "ai", "react", "typescript", "nodejs", "express"],
