@@ -4,7 +4,7 @@ A modern, open-source AI chatbot built with React, TypeScript, Node.js, and powe
 
 ## ✨ Features
 
-- **🤖 Multiple AI Models**: Support for various open-source models like Llama 2, DialoGPT, GPT-Neo, and GPT-2
+- **🤖 Multiple AI Models**: Support for various open-source models like Deepseek V3, Llama 3.1 Large, Llama 3.1 fast
 - **💬 Real-time Chat**: Smooth, responsive chat interface with message history
 - **🎨 Modern UI**: Beautiful, responsive design built with Tailwind CSS
 - **🔒 Secure**: Rate limiting, CORS protection, and input validation
