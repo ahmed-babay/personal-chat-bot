@@ -92,7 +92,19 @@ router.get('/models', (req, res) => {
       name: 'DeepSeek V3 (Fireworks AI)',
       description: 'High-performance language model optimized for chat',
       requires_token: true
-    }
+    },
+    {
+      id: 'meta-llama/Llama-3.1-8B-Instruct:fireworks-ai',
+      name: 'Llama 3.1 8B Instruct',
+      description: 'Faster, smaller Llama model good for quick responses',
+      requires_token: true
+    },
+    {
+      id: 'meta-llama/Llama-3.1-70B-Instruct:fireworks-ai',
+      name: 'Llama 3.1 70B Instruct',
+      description: 'Large high-performance instruction model',
+      requires_token: true
+    },
   ];
 
   res.json({
