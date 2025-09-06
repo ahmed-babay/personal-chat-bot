@@ -69,9 +69,9 @@ NODE_ENV=development
 CLIENT_URL=http://localhost:5173
 
 # Hugging Face Configuration
-HF_API_URL=https://api-inference.huggingface.co/models
-HF_MODEL=microsoft/DialoGPT-medium
-HF_API_TOKEN=your_huggingface_token_here
+HF_API_URL=https://router.huggingface.co/v1/chat/completions
+HF_MODEL=deepseek-ai/DeepSeek-V3-0324:fireworks-ai
+HF_TOKEN=your_huggingface_token_here
 
 # Model Parameters
 MAX_TOKENS=500
