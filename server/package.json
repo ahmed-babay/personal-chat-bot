@@ -15,7 +15,7 @@
     "express-rate-limit": "^7.1.5",
     "morgan": "^1.10.0",
     "axios": "^1.6.2",
-    "@huggingface/inference": "^2.7.0"
+    "@huggingface/inference": "^4.0.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
