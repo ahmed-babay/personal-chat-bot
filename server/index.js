@@ -5,6 +5,9 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+// Load vector store for RAG
+const vectorStore = require('./services/vectorStore');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -49,10 +52,19 @@ app.use('*', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Health check: http://localhost:${PORT}/health`);
   console.log(`🔗 API base: http://localhost:${PORT}/api`);
+  
+  // Load vector store for RAG
+  try {
+    await vectorStore.load();
+    console.log(`🧠 RAG system ready with ${vectorStore.getStats().total_documents} documents`);
+  } catch (error) {
+    console.error('⚠️  Warning: Could not load vector store:', error.message);
+    console.error('   RAG features will not be available');
+  }
 });
 
 module.exports = app;
