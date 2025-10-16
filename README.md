@@ -1,18 +1,21 @@
-# Modern AI Chatbot 🚀
+# Ahmed's Personal AI Assistant 🚀
 
-A modern, open-source AI chatbot built with React, TypeScript, Node.js, and powered by Hugging Face's open-source models. Features a ChatGPT-like interface with a clean, responsive design.
+A personalized AI chatbot powered by **RAG (Retrieval-Augmented Generation)** that answers questions about Ahmed Babay using open-source AI models. Built with React, TypeScript, Node.js, and powered by Hugging Face's models with vector similarity search.
 
 ## ✨ Features
 
-- **🤖 Multiple AI Models**: Support for various open-source models like Deepseek V3, Llama 3.1 Large, Llama 3.1 fast
-- **💬 Real-time Chat**: Smooth, responsive chat interface with message history
+- **🧠 RAG System**: Retrieval-Augmented Generation using vector embeddings and cosine similarity
+- **🤖 Multiple AI Models**: Support for DeepSeek V3, Llama 3.1 (8B & 70B), and Mistral 7B
+- **🔍 Semantic Search**: Uses sentence-transformers/all-MiniLM-L6-v2 for intelligent document retrieval
+- **💬 Personalized Responses**: Answers questions about Ahmed using a custom knowledge base
+- **📊 Vector Database**: Custom in-memory vector store with JSON persistence
+- **📈 Cosine Similarity**: Advanced vector similarity search for relevant context retrieval
 - **🎨 Modern UI**: Beautiful, responsive design built with Tailwind CSS
 - **🔒 Secure**: Rate limiting, CORS protection, and input validation
 - **📱 Responsive**: Works perfectly on desktop, tablet, and mobile devices
 - **⚡ Fast**: Built with Vite for lightning-fast development and builds
 - **🔄 Model Switching**: Easily switch between different AI models
 - **📝 Conversation History**: Maintains context across messages
-- **🚫 No API Limits**: Uses free, open-source models instead of paid APIs
 
 ## 🛠️ Tech Stack
 
@@ -28,10 +31,19 @@ A modern, open-source AI chatbot built with React, TypeScript, Node.js, and powe
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
 - **Axios** - HTTP client for API calls
-- **Hugging Face API** - Access to open-source AI models
+- **Hugging Face API** - Access to open-source AI models (DeepSeek V3, Llama 3.1, Mistral 7B)
+- **sentence-transformers/all-MiniLM-L6-v2** - Embedding model for vector generation (384-dimensional)
+- **Custom Vector Store** - In-memory vector database with JSON persistence
+- **Cosine Similarity** - Vector similarity algorithm for semantic search
 - **Helmet** - Security middleware
 - **CORS** - Cross-origin resource sharing
 - **Rate Limiting** - API abuse prevention
+
+### RAG System
+- **Vector Embeddings** - Text-to-vector conversion using HuggingFace transformers
+- **Similarity Search** - Cosine similarity for finding relevant documents
+- **Context Injection** - Dynamic prompt enhancement with retrieved information
+- **Knowledge Base** - Personal information stored as embeddings in JSON format
 
 ## 🚀 Quick Start
 
@@ -79,9 +91,37 @@ TEMPERATURE=0.7
 TOP_P=0.9
 ```
 
-**Note**: For most models, you don't need an API token. Only some models like Llama 2 require authentication.
+**Note**: Get your HuggingFace token from [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) - it's free and only requires "Read" access.
 
-### 4. Start Development Servers
+### 4. Set Up Your Personal Knowledge Base (RAG)
+
+Add your personal information to the vector store:
+
+```bash
+cd server
+
+# Edit the script with your information
+# Open: server/scripts/setup-my-info.js
+# Add facts about yourself, education, skills, projects, etc.
+
+# Run the setup script (only needed once, or when updating info)
+node scripts/setup-my-info.js
+```
+
+This will:
+- Convert your information into vector embeddings (384-dimensional)
+- Store them in `server/data/documents.json`
+- Enable the chatbot to answer questions about you
+
+**Example information to add:**
+```javascript
+await vectorStore.addDocument(
+  "Your name is a software engineer specializing in AI",
+  { category: "about_me", tags: ["career", "identity"] }
+);
+```
+
+### 5. Start Development Servers
 ```bash
 # Start both frontend and backend in development mode
 npm run dev
@@ -91,8 +131,42 @@ This will start:
 - **Backend**: http://localhost:5000
 - **Frontend**: http://localhost:5173
 
-### 5. Open Your Browser
-Navigate to [http://localhost:5173](http://localhost:5173) to see your chatbot in action!
+### 6. Open Your Browser
+Navigate to [http://localhost:5173](http://localhost:5173) to interact with your personalized AI assistant!
+
+**Try asking:**
+- "Who is Ahmed?"
+- "What does Ahmed do?"
+- "Where did Ahmed study?"
+- "What programming languages does Ahmed know?"
+- "Tell me about Ahmed's projects"
+
+## 🧠 How RAG Works in This Project
+
+This chatbot uses **Retrieval-Augmented Generation** to provide personalized responses:
+
+1. **Question Processing**: When you ask a question (e.g., "What does Ahmed do?")
+2. **Embedding Generation**: The question is converted to a 384-dimensional vector using `all-MiniLM-L6-v2`
+3. **Similarity Search**: The vector store is searched using **cosine similarity** to find the most relevant documents
+4. **Context Retrieval**: The top 3 most similar documents are retrieved (similarity threshold: 0.3)
+5. **Prompt Enhancement**: Retrieved information is injected into the system prompt
+6. **AI Response**: The LLM (DeepSeek V3 / Llama 3.1) generates a response using the provided context
+
+**Example:**
+```
+User Question: "What does Ahmed do?"
+    ↓
+Vector Search finds (cosine similarity):
+  1. "Ahmed is a computer scientist..." (0.87 similarity)
+  2. "Ahmed specializes in AI..." (0.82 similarity)
+  3. "Ahmed built a chatbot..." (0.71 similarity)
+    ↓
+Enhanced Prompt:
+  "Based on this info: [retrieved docs], answer: What does Ahmed do?"
+    ↓
+AI Response:
+  "Ahmed is a computer scientist specializing in AI and machine learning..."
+```
 
 ## 🔧 Available Scripts
 
@@ -126,13 +200,16 @@ npm run lint         # Run ESLint
 ## 🔌 API Endpoints
 
 ### Chat
-- `POST /api/chat` - Send message and get AI response
+- `POST /api/chat` - Send message and get AI response with RAG
+  - Parameters: `message`, `conversationHistory`, `model`, `useRAG` (default: true)
+  - Returns: `response`, `model`, `rag` (contains retrieved sources and similarity scores)
 - `GET /api/chat/models` - Get available AI models
-- `GET /api/chat/status/:model` - Check model availability
-- `POST /api/chat/warmup/:model` - Warm up a model to ensure it's loaded and ready
 
 ### Health
 - `GET /health` - Server health check
+
+### RAG System
+The vector store is automatically loaded when the server starts. Retrieved documents are logged in the console with their similarity scores.
 
 ## 🎨 Customization
 
@@ -141,17 +218,22 @@ The application uses Tailwind CSS with custom color schemes. You can modify:
 - `client/tailwind.config.js` - Colors, fonts, and animations
 - `client/src/index.css` - Custom CSS and component styles
 
-### Models
+### AI Models
 Add new models by:
 1. Adding them to the `availableModels` array in `client/src/hooks/useChat.ts`
 2. Updating the backend model list in `server/routes/chat.js`
 
-### Model Warmup
-The application includes automatic model warmup to handle Hugging Face's serverless architecture:
-- **Automatic Warmup**: Models are warmed up before each chat session
-- **Manual Warmup**: Use the "Warm up model" button to pre-load models
-- **Retry Logic**: Automatic retries with exponential backoff for loading models
-- **Fallback**: Graceful fallback to demo mode if models are unavailable
+### RAG System Configuration
+Customize the retrieval system in `server/routes/chat.js`:
+- **Number of documents**: Change `topK` parameter in `searchSimilar(message, 3, 0.3)`
+- **Similarity threshold**: Adjust the `0.3` minimum threshold (0-1 scale)
+- **System prompt**: Modify the prompt template to change how the AI uses context
+- **Add more information**: Run `node scripts/setup-my-info.js` to update knowledge base
+
+### Knowledge Base Management
+- **Add documents**: Edit and run `server/scripts/setup-my-info.js`
+- **View stored data**: Check `server/data/documents.json`
+- **Clear all**: Use `vectorStore.clearAll()` in a script
 
 ### UI Components
 All React components are in `client/src/components/` and can be easily customized.
@@ -199,11 +281,11 @@ npm test
 ## 📁 Project Structure
 
 ```
-modern-chatbot/
+ahmed-chatbot/
 ├── client/                 # React frontend
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── hooks/         # Custom React hooks
+│   │   ├── components/    # React components (ChatInterface, Header, Message, ModelSelector)
+│   │   ├── hooks/         # Custom React hooks (useChat)
 │   │   ├── App.tsx        # Main app component
 │   │   └── main.tsx       # Entry point
 │   ├── public/            # Static assets
@@ -212,7 +294,15 @@ modern-chatbot/
 │   └── vite.config.ts     # Vite configuration
 ├── server/                 # Node.js backend
 │   ├── routes/            # API routes
-│   ├── index.js           # Server entry point
+│   │   └── chat.js        # Chat endpoint with RAG integration
+│   ├── services/          # Business logic (NEW - RAG System)
+│   │   ├── embeddings.js  # Vector embedding generation (all-MiniLM-L6-v2)
+│   │   └── vectorStore.js # Vector database with cosine similarity
+│   ├── data/              # Data storage (NEW)
+│   │   └── documents.json # Vector embeddings storage
+│   ├── scripts/           # Utility scripts (NEW)
+│   │   └── setup-my-info.js # Initialize knowledge base
+│   ├── index.js           # Server entry point (loads vector store)
 │   ├── package.json       # Backend dependencies
 │   └── env.example        # Environment variables template
 ├── package.json            # Root package.json
@@ -233,7 +323,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Hugging Face** for providing access to open-source AI models
+- **Hugging Face** for providing access to open-source AI models and embedding models
+- **Sentence Transformers** for the all-MiniLM-L6-v2 embedding model
+- **DeepSeek AI** for DeepSeek V3 language model
+- **Meta** for releasing Llama 3.1 models
+- **Mistral AI** for Mistral 7B model
+- **OpenAI** for pioneering the GPT architecture and RAG concepts
 
 ## 🆘 Troubleshooting
 
@@ -257,9 +352,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Check model status with `/api/chat/status/:model`
 
 **Model requires token**
-- Some models like Llama 2 require Hugging Face authentication
+- All models in this project require Hugging Face authentication
 - Get a free token from [Hugging Face](https://huggingface.co/settings/tokens)
-- Add it to your `.env` file
+- Add it to your `.env` file as `HF_TOKEN`
+
+**RAG not working / No relevant documents found**
+- Make sure you ran `node scripts/setup-my-info.js` to create your knowledge base
+- Check that `server/data/documents.json` exists and has documents
+- Verify the vector store loaded successfully (check server console logs)
+- Try lowering the similarity threshold in `server/routes/chat.js` (currently 0.3)
+
+**Embedding errors**
+- Ensure your HuggingFace token has "Read" permissions
+- Check internet connection (embeddings API requires online access)
+- Verify `@huggingface/inference` package is installed
+
+**AI gives generic responses instead of personalized ones**
+- Make sure `useRAG: true` in the request (it's true by default)
+- Check server console for RAG logs - it should show "Retrieved X documents"
+- Verify your question matches information in your knowledge base
+- Try asking more specific questions related to your stored information
 
 ## 📞 Support
 
