@@ -2,15 +2,20 @@
 
 A personalized AI chatbot powered by **RAG (Retrieval-Augmented Generation)** that answers questions about Ahmed Babay using open-source AI models. Built with React, TypeScript, Node.js, and powered by Hugging Face's models with vector similarity search.
 
-## ✨ Features
+## Screenshot
+
+![AI Chatbot Interface](./Chatbot1.png)
+![AI Chatbot](./Chatbot2.png)
+
+##  Features
 
 - **🧠 RAG System**: Retrieval-Augmented Generation using vector embeddings and cosine similarity
 - **🤖 Multiple AI Models**: Support for DeepSeek V3, Llama 3.1 (8B & 70B), and Mistral 7B
 - **🔍 Semantic Search**: Uses sentence-transformers/all-MiniLM-L6-v2 for intelligent document retrieval
 - **💬 Personalized Responses**: Answers questions about Ahmed using a custom knowledge base
-- **📊 Vector Database**: Custom in-memory vector store with JSON persistence
-- **📈 Cosine Similarity**: Advanced vector similarity search for relevant context retrieval
-- **🎨 Modern UI**: Beautiful, responsive design built with Tailwind CSS
+- ** Vector Database**: Custom in-memory vector store with JSON persistence
+- ** Cosine Similarity**: Advanced vector similarity search for relevant context retrieval
+- ** Modern UI**: Beautiful, responsive design built with Tailwind CSS
 - **🔒 Secure**: Rate limiting, CORS protection, and input validation
 - **📱 Responsive**: Works perfectly on desktop, tablet, and mobile devices
 - **⚡ Fast**: Built with Vite for lightning-fast development and builds
